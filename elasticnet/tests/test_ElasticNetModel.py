@@ -1,5 +1,4 @@
 import csv
-
 import numpy
 
 from elasticnet.models.ElasticNet import ElasticNetModel
@@ -16,7 +15,6 @@ def test_predict():
     y = numpy.array([[v for k,v in datum.items() if k=='y'] for datum in data])
     results = model.fit(X,y)
     preds = results.predict(X)
-    # assert preds == 0.5
 
     # Check if predictions are close to the actual values
     y_float = numpy.array([float(val) for val in y])
@@ -34,9 +32,10 @@ def test_predict():
     print(f"Correlation between predictions and actual values: {correlation}")
     assert correlation > 0, "No positive correlation between predictions and actual values"
 
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X,y_float,"small_test data set")
 
-    print("All tests passed!")
+    print("Given small_test.csv data set -  test passed!")
 
 def test_zero_variance_features():
     # Create dataset with one feature having zero variance
@@ -49,6 +48,8 @@ def test_zero_variance_features():
 
     # Ensure predictions are finite and reasonable
     assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X, y, "Zero variance data set")
     print("Zero variance feature test passed!")
 
@@ -63,6 +64,8 @@ def test_highly_correlated_features():
 
     # Ensure the predictions are finite and reasonable
     assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X, y, "High correlated data set")
     print("Highly correlated features test passed!")
 
@@ -77,6 +80,8 @@ def test_sparse_data():
 
     # Ensure the predictions are finite and reasonable
     assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X, y, "sparse data set")
     print("Sparse data test passed!")
 
@@ -91,6 +96,8 @@ def test_with_outliers():
 
     # Ensure the predictions are finite and reasonable
     assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X, y, "Data set with outliers")
     print("Outliers test passed!")
 
@@ -106,6 +113,8 @@ def test_large_dataset():
 
     # Ensure predictions are finite
     assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X, y, "Large Data set")
     print("Large dataset test passed!")
 
@@ -120,6 +129,8 @@ def test_different_alpha_l1_ratios():
 
         # Ensure predictions are finite and reasonable
         assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+        # Evaluate MSE, MAE, R2 and Plot the graphs
         model.evaluate(X, y, "Data set with differnt alpha & l1 ratios")
         print(f"Alpha {alpha}, L1_ratio {l1_ratio} test passed!")
 
@@ -134,21 +145,15 @@ def test_non_normalized_data():
 
     # Ensure predictions are finite
     assert numpy.all(numpy.isfinite(preds)), "Predictions contain non-finite values"
+
+    # Evaluate MSE, MAE, R2 and Plot the graphs
     model.evaluate(X, y, "Data set without normalized")
     print("Non-normalized data test passed!")
 
-def create_test_data(n_samples=100, n_features=3):
     """
     Creates synthetic data for testing the ElasticNet model.
-
-    Parameters:
-        n_samples (int): Number of data points.
-        n_features (int): Number of features.
-
-    Returns:
-        X (np.ndarray): Feature matrix of shape (n_samples, n_features).
-        y (np.ndarray): Target vector of shape (n_samples,).
     """
+def create_test_data(n_samples=100, n_features=3):
     numpy.random.seed(42)  # For reproducibility
     X = numpy.random.randn(n_samples, n_features)  # Random features
     y = X @ numpy.random.randn(n_features) + numpy.random.normal(scale=0.5, size=n_samples)  # y = Xβ + noise

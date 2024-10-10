@@ -2,6 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class ElasticNetModel:
+
+    """
+    Initializes the model with alpha (regularization strength),
+    l1_ratio (mix of L1/L2 regularization), max_iter, and tolerance for convergence.
+    """
     def __init__(self, alpha=1.0, l1_ratio=0.5, max_iter=1000, tol=1e-4):
         self.alpha = alpha
         self.l1_ratio = l1_ratio
@@ -12,11 +17,19 @@ class ElasticNetModel:
         self.mean = None
         self.std = None
 
+    """
+    Converts input data to float and replaces empty values with 0,
+    ensuring data is in the correct format for processing.
+    """
     def clean_data(self, X, y):
         X = np.array([[float(v) if v != '' else 0 for v in row] for row in X])
         y = np.array([float(v) if v != '' else 0 for v in y])
         return X, y.ravel()
 
+    """
+    Fits the ElasticNet model using coordinate descent,
+    normalizing the data and updating coefficients iteratively.
+    """
     def fit(self, X, y):
         X, y = self.clean_data(X, y)
         self.mean = np.mean(X, axis=0)
@@ -51,28 +64,49 @@ class ElasticNetModel:
 
         return self
 
+    """
+    Applies the soft-thresholding function for L1 regularization
+    to shrink coefficients towards zero.
+    """
     def _soft_threshold(self, z, threshold):
         return np.sign(z) * np.maximum(np.abs(z) - threshold, 0)
 
+    """
+    Predicts the target values for new input data
+    using the trained model by applying the learned coefficients.
+    """
     def predict(self, X):
         X, _ = self.clean_data(X, [0] * len(X))
         X_normalized = (X - self.mean) / self.std
         return X_normalized.dot(self.coefficients) + self.intercept
 
-    # Evaluation Methods
+    """
+    Computes the mean squared error (MSE)
+    between actual and predicted values.
+    """
     def mean_squared_error(self, y_actual, y_pred):
         return np.mean((y_actual - y_pred) ** 2)
 
+    """
+    Computes the mean absolute error (MAE)
+    between actual and predicted values.
+    """
     def mean_absolute_error(self, y_actual, y_pred):
         return np.mean(np.abs(y_actual - y_pred))
 
+    """
+    Computes the R-squared (coefficient of determination)
+    to measure how well the model explains the variance in the target.
+    """
     def r_squared(self, y_actual, y_pred):
         ss_total = np.sum((y_actual - np.mean(y_actual)) ** 2)
         ss_residual = np.sum((y_actual - y_pred) ** 2)
         return 1 - (ss_residual / ss_total)
 
-
-
+    """
+    Evaluates the model's performance by calculating MSE, MAE, R-squared,
+    and plotting the results.
+    """
     def evaluate(self, X, y, plot_name):
         y_pred = self.predict(X)
         mse = self.mean_squared_error(y, y_pred)
@@ -84,7 +118,10 @@ class ElasticNetModel:
         print(f"R-squared: {r2}")
         self.plot_results(y, y_pred, plot_name)
 
-    # Plotting Method
+    """
+    Generates and displays scatter and residual plots
+    to visually assess model performance.
+    """
     def plot_results(self, y_actual, y_pred, plot_name):
         plt.figure(figsize=(14, 6))
         plt.suptitle(plot_name, fontsize=16)  # Set the figure title

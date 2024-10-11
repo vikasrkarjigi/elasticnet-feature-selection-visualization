@@ -117,7 +117,7 @@ Below are the screenshots showing the results of each test case included in this
 - **test_predict()**: 
   Tests the model on a small dataset and verifies if the predictions are reasonable.
 <div style="text-align: center;">
-  <img src="elasticnet/images/small_test_dataset_output.png" alt="test_predict Output" width="700"/>
+  <img src="images/small_test_dataset_output.png" alt="test_predict Output" width="700"/>
 </div>
 
 - **test_zero_variance_features()**: 

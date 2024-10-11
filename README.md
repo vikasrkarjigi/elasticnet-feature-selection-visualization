@@ -1,3 +1,9 @@
+## Team Members
+1. Ayyappa Boovadira Kushalappa **(A20555146)**
+2. Binaal Bopanna Machanda Beliappa **(A20599896)**
+3. Vikas Ravikumar Karjigi **(A20581687)**
+4. Yashas Basavaraju **(A20586428)**
+
 # ElasticNet Model Implementation
 
 This repository includes a code of an **ElasticNet** regression model in the python language with the use of **NumPy** and also **Matplotlib**. The ElasticNet model is a linear regression model with elements of **Lasso (L1)** and the **Ridge (L2)** regularization. It is very useful when working with data which contains many highly correlated features or in case of features selection. The model used for the training is the **coordinate descent** algorithm.
@@ -62,14 +68,27 @@ The following parameters are exposed for tuning the performance of the ElasticNe
 ## Usage Instructions
 
 ### Installation
-You need **Python 3.x** and the following packages:
-- **NumPy**
-- **Matplotlib**
 
-You can install the required libraries using pip:
+To get started with this project, first you need **Python 3.x**. Then follow these installation steps:
+
+#### 1. Clone the Repository to your local machine:
+
+```bash
+git clone https://github.com/vikasrkarjigi/Project1.git
+```
+#### 2. Navigate to the project directory
+```bash
+cd ElasticNetModel
+```
+#### 3. You can install the required libraries using pip:
 ```bash
 pip install numpy matplotlib
 ```
+#### 4. Run the Test Script
+```bash
+python test_ElasticNetModel.py
+```
+This will run the test cases and print out the evaluation metrics and generate the plots.
 
 ### Basic Usage
 To use the ElasticNet model, follow the example below:
